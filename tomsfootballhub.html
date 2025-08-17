@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tom’s Football Hub</title>
+<meta name="description" content="Latest football events, big transfers, live scores, and a way to contact Tom." />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#0b0f1a; --card:#111827; --ink:#e5e7eb; --muted:#9ca3af; --accent:#22d3ee; --accent2:#a78bfa; --ok:#22c55e; --warn:#f59e0b;
+--ring: 0 0 0 2px rgba(34, 211, 238, .35), 0 0 0 6px rgba(167,139,250,.15);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:radial-gradient(1200px 800px at 80% -10%, #1e293b 0, #0b0f1a 40%), var(--bg);color:var(--ink);line-height:1.5}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+header{padding:48px 20px 24px;max-width:1100px;margin:auto}
+.brand{display:flex;align-items:center;gap:14px}
+.logo{width:44px;height:44px;border-radius:12px;background:
+conic-gradient(from 210deg, var(--accent) 0 35%, var(--accent2) 0 70%, #fff0 0)
+,linear-gradient(180deg,#0ea5b7, #7c3aed); box-shadow:0 10px 30px rgba(34,211,238,.25)}
+h1{margin:0;font-size:clamp(26px,4vw,38px);letter-spacing:.2px}
+.sub{color:var(--muted);margin-top:6px}
+.grid{display:grid;gap:18px;padding:24px 20px 60px;max-width:1100px;margin:auto;grid-template-columns:repeat(12,1fr)}
+.card{grid-column:span 12;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden;backdrop-filter: blur(6px)}
+.card h2{margin:0;padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.08);font-size:18px}
+.pad{padding:14px 18px}
+.flex{display:flex;gap:12px;flex-wrap:wrap}
+.pill{font-size:12px;color:#0b1020;background:linear-gradient(180deg,#7dd3fc,#a78bfa);padding:6px 10px;border-radius:999px;font-weight:600}
+.list{display:grid;gap:10px}
+.item{display:flex;justify-content:space-between;gap:12px;align-items:start;padding:12px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(2,8,23,.45)}
+.item strong{font-weight:700}
+.meta{color:var(--muted);font-size:12px}
+.badge{font-size:12px;padding:3px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.14)}
+.ok{border-color:rgba(34,197,94,.35);color:#86efac}
+.rumour{border-color:rgba(245,158,11,.35);color:#fcd34d}
+.scores{display:grid;gap:10px}
+.score{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;padding:12px;border:1px solid rgba(255,255,255,.08);border-radius:12px}
+.score b{font-size:18px}
+.cta{border-top:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,0));padding:18px}
+form{display:grid;gap:10px;margin-top:8px}
+input,textarea,button{font:inherit;border-radius:12px;border:1px solid rgba(255,255,255,.14);padding:12px;background:#0a1224;color:var(--ink)}
+input:focus,textarea:focus{outline:none;box-shadow:var(--ring)}
+button{cursor:pointer;background:linear-gradient(180deg,#06b6d4,#7c3aed);border:none;font-weight:700}
+footer{max-width:1100px;margin:0 auto 80px;color:var(--muted);padding:0 20px}
+/* responsive columns */
+@media (min-width:880px){
+.col-6{grid-column:span 6}
+.col-4{grid-column:span 4}
+.col-8{grid-column:span 8}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="brand">
+<div class="logo" aria-hidden="true"></div>
+<div>
+<h1>Tom’s Football Hub</h1>
+<div class="sub">Fresh transfers, key events, today’s scores — updated August 15, 2025 (Europe/London).</div>
+</div>
+</div>
+</header>
+
+<main class="grid">
+<!-- Latest Events -->
+<section class="card col-8">
+<h2>Latest Headlines</h2>
+<div class="pad list" id="events">
+<!-- Filled by JS so you can update easily -->
+</div>
+<div class="cta">
+<span class="meta">Sources: UEFA, Premier League, major club announcements.</span>
+</div>
+</section>
+
+<!-- Transfers -->
+<section class="card col-4">
+<h2>Big Transfers (Summer 2025)</h2>
+<div class="pad list" id="transfers"></div>
+<div class="cta">
+<span class="meta">“Confirmed” are official club releases. “Rumour” are credible reports.</span>
+</div>
+</section>
+
+<!-- Scores -->
+<section class="card col-6">
+<h2>Today’s Fixtures & Scores</h2>
+<div class="pad scores" id="scores"></div>
+<div class="cta">
+<span class="meta">Fixtures & live updates: Premier League & broadcasters.</span>
+</div>
+</section>
+
+<!-- Contact -->
+<section class="card col-6">
+<h2>Contact Tom</h2>
+<div class="pad">
+<p>Questions, collabs, or tips? Drop Tom a note:</p>
+<!-- Option A: direct email -->
+<p><a class="pill" href="mailto:tom@example.com?subject=Football%20Enquiry">Email Tom</a></p>
+<!-- Option B: simple form (use Formspree or your backend) -->
+<form action="https://formspree.io/f/your-id-here" method="POST">
+<input name="name" placeholder="Your name" required>
+<input type="email" name="email" placeholder="Your email" required>
+<textarea name="message" rows="4" placeholder="Your message…" required></textarea>
+<button type="submit">Send message</button>
+<input type="hidden" name="_subject" value="New message from Tom’s Football Hub">
+</form>
+<p class="meta">Tip: replace the Formspree action with your endpoint, or keep the <em>Email Tom</em> button only.</p>
+</div>
+</section>
+</main>
+
+<footer>
+<p class="meta">© <span id="year"></span> Tom’s Football Hub.</p>
+</footer>
+
+<script>
+// -------- Data you can update quickly (all populated with fresh items & citations) --------
+const events = [
+{
+title: "UEFA Super Cup 2025 build-up this week",
+blurb: "UEFA previewed this year’s Super Cup with key details and context.",
+link: "https://www.uefa.com/news-media/news/029c-1e73edfee77c-809326d9a88c-1000--welcome-to-the-uefa-super-cup/",
+source: "UEFA.com",
+tag: "Event"
+},
+{
+title: "Premier League 2025/26 kicks off this weekend",
+blurb: "TV schedule and opening fixtures are set for the new season.",
+link: "https://www.radiotimes.com/tv/sport/football/premier-league-2025-26-tv-schedule/",
+source: "Radio Times",
+tag: "Event"
+},
+{
+title: "Arne Slot on Wirtz expectations at Liverpool",
+blurb: "Liverpool boss says record signing must reach Salah-level standards.",
+link: "https://www.theguardian.com/football/2025/aug/14/arne-slot-says-florian-wirtz-must-reach-level-of-mohamed-salah-to-realise-liverpool-expectations",
+source: "The Guardian",
+tag: "News"
+}
+];
+
+const transfers = [
+{
+status: "Confirmed",
+primary: "Florian Wirtz → Liverpool",
+detail: "Record deal agreed; unveiled in June. Long-term contract.",
+link: "https://www.liverpoolfc.com/news/liverpool-agree-signing-florian-wirtz-bayer-leverkusen",
+source: "Liverpool FC"
+},
+{
+status: "Confirmed",
+primary: "Benjamin Šeško → Manchester United",
+detail: "Signed from RB Leipzig; contract to 2030.",
+link: "https://www.manutd.com/en/news/detail/official-benjamin-sesko-signs-for-manchester-united",
+source: "ManUtd.com"
+},
+{
+status: "Rumour",
+primary: "Trent Alexander-Arnold → Real Madrid",
+detail: "Widespread reporting of an agreement earlier in the summer.",
+link: "https://www.sportsmole.co.uk/football/liverpool/news/alexander-arnold-in-numbers-stats-facts-and-records-assessed-after-real-move_573894.html",
+source: "Sports Mole"
+}
+];
+
+// Use today’s fixtures (example slate); replace with your own list or a live widget.
+// These reflect the 2025/26 opening weekend window.
+const scores = [
+{ home: "Man Utd", away: "Arsenal", score: "—", time: "Sun 17 Aug, 16:30", link: "https://www.premierleague.com/en/matches" },
+{ home: "Liverpool", away: "Newcastle", score: "—", time: "Sat 16 Aug, 17:30", link: "https://www.tntsports.co.uk/football/premier-league/2025-2026/calendar-results.shtml" },
+{ home: "Brighton", away: "Man City", score: "—", time: "Sun 31 Aug, 14:00", link: "https://www.footballwebpages.co.uk/premier-league/fixtures-results/august" }
+];
+
+// -------- Render helpers --------
+const el = (tag, attrs = {}, children = []) => {
+const n = document.createElement(tag);
+Object.entries(attrs).forEach(([k,v]) => n.setAttribute(k,v));
+(Array.isArray(children) ? children : [children]).forEach(c => {
+if (typeof c === "string") n.appendChild(document.createTextNode(c));
+else if (c) n.appendChild(c);
+});
+return n;
+};
+
+// Events
+const eventsWrap = document.getElementById('events');
+events.forEach(e => {
+const row = el('div', {class:'item'}, [
+el('div', {}, [
+el('div', {class:'flex'}, [
+el('span', {class:'pill'}, e.tag)
+]),
+el('strong', {}, e.title),
+el('div', {class:'meta'}, e.blurb)
+]),
+el('a', {href:e.link, target:'_blank', rel:'noopener'}, e.source + ' ↗')
+]);
+eventsWrap.appendChild(row);
+});
+
+// Transfers
+const transfersWrap = document.getElementById('transfers');
+transfers.forEach(t => {
+const badgeClass = t.status === 'Confirmed' ? 'badge ok' : 'badge rumour';
+const row = el('div', {class:'item'}, [
+el('div', {}, [
+el('div', {class:'flex'}, [ el('span', {class:badgeClass}, t.status) ]),
+el('strong', {}, t.primary),
+el('div', {class:'meta'}, t.detail)
+]),
+el('a', {href:t.link, target:'_blank', rel:'noopener'}, t.source + ' ↗')
+]);
+transfersWrap.appendChild(row);
+});
+
+// Scores
+const scoresWrap = document.getElementById('scores');
+scores.forEach(s => {
+const row = el('div', {class:'score'}, [
+el('div', {}, [ el('span', {}, s.home) ]),
+el('div', {style:'text-align:center'}, [ el('b', {}, s.score) ]),
+el('div', {style:'text-align:right'}, [ el('span', {}, s.away) ]),
+el('div', {class:'meta', style:'grid-column:1/-1;display:flex;justify-content:space-between'}, [
+el('span', {}, s.time),
+el('a', {href:s.link, target:'_blank', rel:'noopener'}, 'Details ↗')
+])
+]);
+scoresWrap.appendChild(row);
+});
+
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
